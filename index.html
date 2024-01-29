@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Morse Code Converter</title>
+<style>
+  body {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.converter-section {
+  margin-bottom: 20px;
+}
+
+input[type="text"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 300px;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+p {
+  font-weight: bold;
+}
+
+</style>
+</head>
+<body>
+  <h1>Morse Code Converter</h1>
+  <br />
+  <div class="converter-section">
+    <h2>Text to Morse Code</h2>
+    <input type="text" id="text-input" placeholder="Enter text here">
+    <button onclick="convertToMorse()">Translate</button>
+    <p id="morse-output"></p>
+  </div>
+  <br />
+  <div class="converter-section">
+    <h2>Morse Code to Text</h2>
+    <input type="text" id="morse-input" placeholder="Enter Morse code here">
+    <button onclick="convertToText()">Translate</button>
+    <p id="text-output"></p>
+  </div>
+  <script>
+      // Morse code alphabet
+const morseCode = {
+  'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+  'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+  'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+  'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+  'Y': '-.--', 'Z': '--..', ' ': '/'
+};
+
+function convertToMorse() {
+  const text = document.getElementById('text-input').value.toUpperCase();
+  let morse = '';
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    if (morseCode[char]) {
+      morse += morseCode[char] + ' ';
+    } else {
+      morse += char + ' '; // Handle non-alphabetic characters
+    }
+  }
+  document.getElementById('morse-output').textContent = morse;
+}
+
+function convertToText() {
+  const morse = document.getElementById('morse-input').value.toUpperCase();
+  const words = morse.split('   '); // Split into words
+  let text = '';
+
+  for (let i = 0; i < words.length; i++) {
+    const letters = words[i].split(' '); // Split each word into letters
+    let word = '';
+
+    for (let j = 0; j < letters.length; j++) {
+      const key = Object.keys(morseCode).find(key => morseCode[key] === letters[j]);
+      if (key) {
+        word += key;
+      } else {
+        word += letters[j]; // Handle invalid Morse code characters
+      }
+    }
+
+    text += word + ' ';
+  }
+
+  document.getElementById('text-output').textContent = text;
+}
+
+  </script>
+</body>
+</html>
